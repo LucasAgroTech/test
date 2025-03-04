@@ -16,7 +16,7 @@ def baixar_dados_srinfo_empresas_contratantes(driver):
 
     link_listagem = "https://srinfo.embrapii.org.br/analytics/reports/"
 
-    username = os.getenv('USERNAME')
+    username = os.getenv('SRINFO_USERNAME')
     password = os.getenv('PASSWORD')
     
     try:

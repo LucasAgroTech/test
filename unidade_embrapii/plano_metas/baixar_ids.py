@@ -13,7 +13,7 @@ load_dotenv()
 
 def baixar_ids_tabela_plano_metas(driver):
 
-    username = os.getenv('USERNAME')
+    username = os.getenv('SRINFO_USERNAME')
     password = os.getenv('PASSWORD')
  
     try:
@@ -70,5 +70,3 @@ def baixar_ids_tabela_plano_metas(driver):
 
     finally:
         pass
-
-

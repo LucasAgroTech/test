@@ -29,15 +29,34 @@ from download_files import get_files
 from download_files import get_file
 from apagar_arquivos_pasta import apagar_arquivos_pasta
 
+def criar_diretorio_se_nao_existir(diretorio):
+    """
+    Cria um diretório se ele não existir.
+    
+    Args:
+        diretorio (str): Caminho do diretório a ser criado
+    """
+    if not os.path.exists(diretorio):
+        os.makedirs(diretorio)
+        print(f"Diretório criado: {diretorio}")
+    return diretorio
+
 def buscar_arquivos_sharepoint():
+    # Criar diretórios necessários
+    criar_diretorio_se_nao_existir(CURRENT_DIR)
+    criar_diretorio_se_nao_existir(DWPII_UP)
+    criar_diretorio_se_nao_existir(DWPII_BACKUP)
+    
+    # Limpar diretórios existentes
     apagar_arquivos_pasta(CURRENT_DIR)
     apagar_arquivos_pasta(DWPII_UP)
     apagar_arquivos_pasta(DWPII_BACKUP)
     
+    # Baixar arquivos do SharePoint
     get_file(SHAREPOINT_SITE_SEBRAE, SHAREPOINT_SITE_NAME_SEBRAE, SHAREPOINT_DOC_SEBRAE, "sebrae_bi_interno_base_2.0.xlsx",
-              "Contratos SEBRAE/Transferência de Atividades (Handsover)/", CURRENT_DIR)
+              "Contratos SEBRAE/Transferência de Atividades (Handsover)", CURRENT_DIR)
     get_files(SHAREPOINT_SITE, SHAREPOINT_SITE_NAME, SHAREPOINT_DOC, "DWPII/srinfo", CURRENT_DIR)
-    print('Passou aqui')
+    print('Arquivos baixados com sucesso')
 
 
 #Executar função

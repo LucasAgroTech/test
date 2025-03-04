@@ -19,7 +19,7 @@ PASTA_DOWNLOAD = os.getenv('PASTA_DOWNLOAD')
 def baixar_files_metas(driver, diretorio):
     lista_ids = pd.read_excel(IDS)['ID'].tolist()
 
-    username = os.getenv('USERNAME')
+    username = os.getenv('SRINFO_USERNAME')
     password = os.getenv('PASSWORD')
  
     try:
@@ -84,6 +84,3 @@ def mover_file_raw(diretorio, id):
     novo_nome = f"id_{id}.xlsx"
     novo_caminho = os.path.join(data_raw, novo_nome)
     shutil.move(file, novo_caminho)
-
-    
-

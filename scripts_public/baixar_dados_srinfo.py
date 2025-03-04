@@ -1,4 +1,5 @@
 import os
+import sys
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -13,16 +14,41 @@ from bs4 import BeautifulSoup
 load_dotenv()
 
 def baixar_dados_srinfo(driver, link_listagem, num_pages = None, option1000 = None, sebrae = False):
-
-    username = os.getenv('USERNAME')
+    """
+    Baixa dados do SRInfo usando Selenium WebDriver.
+    
+    Requer as seguintes variáveis de ambiente no arquivo .env:
+    - SRINFO_USERNAME: Nome de usuário para login no SRInfo
+    - PASSWORD: Senha para login no SRInfo
+    
+    Args:
+        driver: Instância do WebDriver
+        link_listagem: URL da página de listagem
+        num_pages: Número de páginas a serem processadas (opcional)
+        option1000: Se True, seleciona 1000 itens por página, caso contrário 9999 (opcional)
+        sebrae: Se True, adiciona um tempo de espera adicional para páginas do Sebrae (opcional)
+        
+    Returns:
+        int: Número de downloads realizados
+    """
+    # Obter credenciais do arquivo .env
+    username = os.getenv('SRINFO_USERNAME')
     password = os.getenv('PASSWORD')
+    
+    # Verificar se as credenciais estão definidas
+    if not username or not password:
+        print("ERRO: Credenciais incompletas. Verifique se SRINFO_USERNAME e PASSWORD estão definidos no arquivo .env")
+        print("Por favor, adicione sua senha no arquivo .env na variável PASSWORD")
+        sys.exit(1)
  
     try:
-        #Acessar tela de login
+        # Acessar tela de login
+        print("Acessando página de login do SRInfo...")
         driver.get('https://srinfo.embrapii.org.br/users/login/')
         time.sleep(5)
         
-        #Inserir credenciais
+        # Inserir credenciais
+        print(f"Fazendo login com o usuário: {username}")
         username_field = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.ID, 'id_username'))
         )

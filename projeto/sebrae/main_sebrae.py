@@ -25,6 +25,12 @@ from scripts_public.processar_excel import processar_excel
 
 #Definição da função
 def main_sebrae(driver):
+    # Criar diretórios necessários
+    for pasta in ['step_1_data_raw', 'step_2_stage_area', 'step_3_data_processed']:
+        caminho = os.path.join(CURRENT_DIR, pasta)
+        os.makedirs(caminho, exist_ok=True)
+        print(f"Verificado/criado diretório: {caminho}")
+    
     link = 'https://srinfo.embrapii.org.br/partnerships/sebrae_4_contrato/list'
     nome_arquivo = 'sebrae_srinfo'
     baixar_e_juntar_arquivos(driver, link, CURRENT_DIR, nome_arquivo, num_pages=1, sebrae = True)

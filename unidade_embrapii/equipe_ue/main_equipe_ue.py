@@ -29,8 +29,15 @@ from criar_tabela_ue_linhas_atuacao import criar_tabela_ue_linhas_atuacao
 def main_equipe_ue(driver):
     link = 'https://srinfo.embrapii.org.br/people/list/'
     nome_arquivo = 'equipe_ue'
-    # baixar_e_juntar_arquivos(driver, link, CURRENT_DIR, nome_arquivo)
-    # processar_dados()
+    
+    # Criar diretórios necessários
+    for pasta in ['step_1_data_raw', 'step_2_stage_area', 'step_3_data_processed']:
+        caminho = os.path.join(CURRENT_DIR, pasta)
+        os.makedirs(caminho, exist_ok=True)
+        print(f"Verificado/criado diretório: {caminho}")
+    
+    baixar_e_juntar_arquivos(driver, link, CURRENT_DIR, nome_arquivo)
+    processar_dados()
     ajustar_equipe_ue()
     copiar_arquivos_finalizados_para_dwpii(DIRETORIO_ARQUIVOS_FINALIZADOS)
 

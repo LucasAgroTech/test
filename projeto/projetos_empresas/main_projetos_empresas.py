@@ -43,6 +43,12 @@ renomeios = {
 
 
 def main_projetos_empresas():
+    # Criar diretórios necessários
+    for pasta in ['step_1_data_raw', 'step_2_stage_area', 'step_3_data_processed']:
+        caminho = os.path.join(CURRENT_DIR, pasta)
+        os.makedirs(caminho, exist_ok=True)
+        print(f"Verificado/criado diretório: {caminho}")
+    
     copiar_e_renomear_arquivos(origens, destino, renomeios)
     criar_tabela_projetos_empresas()
     criar_tabela_informacoes_empresas()

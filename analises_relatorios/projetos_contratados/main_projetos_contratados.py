@@ -20,11 +20,17 @@ from mover_arquivos import mover_arquivos_excel
 from scripts.baixar_dados_srinfo import baixar_dados_srinfo_projetos_contratados
 
 def main_projetos_contratados(driver):
+    # Criar diretórios necessários
+    for pasta in ['step_1_data_raw', 'step_2_stage_area', 'step_3_data_processed']:
+        caminho = os.path.join(CURRENT_DIR, pasta)
+        os.makedirs(caminho, exist_ok=True)
+        print(f"Verificado/criado diretório: {caminho}")
+    
     baixar_dados_srinfo_projetos_contratados(driver)
     pasta_download = os.getenv('PASTA_DOWNLOAD')
     nome_arquivo = 'raw_relatorio_projetos_contratados'
     mover_arquivos_excel(1, pasta_download, CURRENT_DIR, nome_arquivo)
-    caminho = r'analises_relatorios\projetos_contratados\step_1_data_raw\raw_relatorio_projetos_contratados_1.xlsx'
+    caminho = os.path.join(ROOT, 'analises_relatorios', 'projetos_contratados', 'step_1_data_raw', 'raw_relatorio_projetos_contratados_1.xlsx')
     filtrar_main_projetos_contratados(caminho)
 
 def filtrar_main_projetos_contratados(caminho):

@@ -9,8 +9,48 @@ from datetime import datetime
 # Adicionar o caminho do diretório raiz ao sys.path
 load_dotenv()
 ROOT = os.getenv('ROOT')
-USUARIO = os.getenv('USERNAME')
+USUARIO = os.getenv('SRINFO_USERNAME')
 sys.path.append(ROOT)
+
+def criar_estrutura_diretorios():
+    """
+    Verifica e cria a estrutura de diretórios necessária para o pipeline.
+    """
+    print("Verificando e criando estrutura de diretórios necessária...")
+    
+    # Lista de módulos que precisam da estrutura de diretórios padrão
+    modulos = [
+        'unidade_embrapii/equipe_ue',
+        'unidade_embrapii/info_unidades',
+        'unidade_embrapii/plano_acao',
+        'unidade_embrapii/plano_metas',
+        'unidade_embrapii/termos_cooperacao',
+        'projeto/projetos_empresas',
+        'projeto/sebrae',
+        'projeto/contratos',
+        'projeto/projetos',
+        'projeto/estudantes',
+        'projeto/pedidos_pi',
+        'projeto/macroentregas',
+        'projeto/classificacao_projeto',
+        'projeto/portfolio',
+        'analises_relatorios/empresas_contratantes',
+        'analises_relatorios/projetos_contratados',
+        'empresa/info_empresas',
+        'negociacoes/negociacoes',
+        'negociacoes/planos_trabalho',
+        'negociacoes/propostas_tecnicas',
+        'prospeccao/comunicacao',
+        'prospeccao/eventos_srinfo',
+        'prospeccao/prospeccao'
+    ]
+    
+    # Para cada módulo, criar as pastas step_1_data_raw, step_2_stage_area e step_3_data_processed
+    for modulo in modulos:
+        for pasta in ['step_1_data_raw', 'step_2_stage_area', 'step_3_data_processed']:
+            caminho = os.path.join(ROOT, modulo, pasta)
+            os.makedirs(caminho, exist_ok=True)
+            print(f"Verificado/criado diretório: {caminho}")
 
 # Importar o módulo principal de contratos
 from scripts_public.buscar_arquivos_sharepoint import buscar_arquivos_sharepoint
@@ -48,6 +88,9 @@ def main_pipeline_srinfo(plano_metas = False, gerar_snapshot = False, enviar_wpp
 
     print('Início: ', datetime.now().strftime('%d/%m/%Y %H:%M:%S'))
     inicio = datetime.now()
+
+    # Verificar e criar estrutura de diretórios necessária
+    criar_estrutura_diretorios()
 
     log = []
 
@@ -163,8 +206,8 @@ def main_pipeline_srinfo(plano_metas = False, gerar_snapshot = False, enviar_wpp
     link_snapshot = "https://embrapii.sharepoint.com/:f:/r/sites/GEPES/Documentos%20Compartilhados/Reports?csf=1&web=1&e=aVdkyL"
     mensagem = (
             f'*Pipeline SRInfo*\n'
-            f'Iniciado em: {inicio.strftime('%d/%m/%Y %H:%M:%S')}\n'
-            f'Finalizado em: {fim.strftime('%d/%m/%Y %H:%M:%S')}\n'
+            f'Iniciado em: {inicio.strftime("%d/%m/%Y %H:%M:%S")}\n'
+            f'Finalizado em: {fim.strftime("%d/%m/%Y %H:%M:%S")}\n'
             f'_Duração total: {duracao}_\n\n'
             f'Novos projetos: {novos[0]}\n'
             f'Novas empresas: {novos[1]}\n'
@@ -210,7 +253,10 @@ def encurtar_url(url):
 
 
 def teste_pipeline():
-     # Configurar o WebDriver
+    # Verificar e criar estrutura de diretórios necessária
+    criar_estrutura_diretorios()
+    
+    # Configurar o WebDriver
     driver = configurar_webdriver()
     main_plano_metas(driver)
 

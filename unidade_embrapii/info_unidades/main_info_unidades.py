@@ -26,6 +26,12 @@ from scripts_public.processar_excel import processar_excel
 from criar_tabela_ue_linhas_atuacao import criar_tabela_ue_linhas_atuacao
 
 def main_info_unidades(driver):
+    # Criar diretórios necessários
+    for pasta in ['step_1_data_raw', 'step_2_stage_area', 'step_3_data_processed']:
+        caminho = os.path.join(CURRENT_DIR, pasta)
+        os.makedirs(caminho, exist_ok=True)
+        print(f"Verificado/criado diretório: {caminho}")
+    
     link = 'https://srinfo.embrapii.org.br/units/list/'
     nome_arquivo = 'info_unidades_embrapii'
     baixar_e_juntar_arquivos(driver, link, CURRENT_DIR, nome_arquivo)

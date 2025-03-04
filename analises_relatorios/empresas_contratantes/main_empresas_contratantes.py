@@ -31,6 +31,12 @@ from scripts_public.copiar_arquivos_finalizados_para_dwpii import copiar_arquivo
 # from scripts.baixar_dados_srinfo import baixar_dados_srinfo_empresas_contratantes
 
 def main_empresas_contratantes(driver):
+    # Criar diretórios necessários
+    for pasta in ['step_1_data_raw', 'step_2_stage_area', 'step_3_data_processed']:
+        caminho = os.path.join(CURRENT_DIR, pasta)
+        os.makedirs(caminho, exist_ok=True)
+        print(f"Verificado/criado diretório: {caminho}")
+    
     baixar_dados_srinfo_empresas_contratantes(driver)
     pasta_download = os.getenv('PASTA_DOWNLOAD')
     nome_arquivo = 'raw_relatorio_empresas_contratantes'
@@ -44,7 +50,7 @@ def baixar_dados_srinfo_empresas_contratantes(driver):
 
     link_listagem = "https://srinfo.embrapii.org.br/analytics/reports/"
 
-    username = os.getenv('USERNAME')
+    username = os.getenv('SRINFO_USERNAME')
     password = os.getenv('PASSWORD')
     
     try:

@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 # Carregar .env
 load_dotenv()
 ROOT = os.getenv('ROOT')
-USUARIO = os.getenv('USERNAME')
+USUARIO = os.getenv('SRINFO_USERNAME')
 sys.path.append(ROOT)
 
 # Função para registrar atualizações
