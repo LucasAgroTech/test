@@ -3,6 +3,7 @@ import sys
 import pandas as pd
 from datetime import datetime
 import win32com.client as win32
+import pythoncom
 import shutil
 import stat
 
@@ -18,6 +19,9 @@ def remove_protection(file_path, temp_folder):
         str: Caminho do arquivo sem proteção
     """
     try:
+        # Initialize COM for this thread
+        pythoncom.CoInitialize()
+        
         excel = win32.DispatchEx('Excel.Application')
         workbook = excel.Workbooks.Open(file_path)
         base_name = os.path.basename(file_path)
@@ -25,6 +29,10 @@ def remove_protection(file_path, temp_folder):
         workbook.SaveAs(new_file_path, FileFormat=51)  # FileFormat=51 is for .xlsx files
         workbook.Close(False)
         excel.Application.Quit()
+        
+        # Uninitialize COM when done
+        pythoncom.CoUninitialize()
+        
         return new_file_path
     except Exception as e:
         print(f"ERRO ao remover proteção do arquivo {file_path}: {e}")
